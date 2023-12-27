@@ -1,0 +1,88 @@
+.App {
+  text-align: center;
+}
+
+.center-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* Set the container height to full viewport height */
+}
+
+/* Modal CSS */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent black */
+  z-index: 1000;
+  /* Ensure the backdrop is behind the modal */
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: grey solid 1px;
+  border-radius: 16px;
+  width: 620px;
+  z-index: 1001;
+}
+
+.modal-container {
+  padding: 8px;
+}
+
+.modal-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 18px;
+}
+
+.modal-header {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.modal-header-btn {
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  padding: 10px;
+  cursor: pointer;
+}
+.modal-header-btn:hover {
+  border-radius: 50%;
+  padding: 10px;
+  background-color: whitesmoke;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 32px;
+}
+
+.modal-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal-divider {
+  margin: 24px -24px 24px -24px;
+  border-color: #191B191F;
+
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
