@@ -38,10 +38,10 @@ const RecurringActivityDialog = ({ isOpen, onClose, formData, handleOnChange, on
             </div>
             <hr className='modal-divider' />
             <div className='modal-actions'>
-              <Button onClick={onClose} color="primary" variant="outlined">
+              <Button className="cancel-btn" onClick={onClose} variant='outlined'>
                 Cancel
               </Button>
-              <Button type='submit' color="primary" >
+              <Button className='add-btn' type='submit'>
                 Add
               </Button>
             </div>

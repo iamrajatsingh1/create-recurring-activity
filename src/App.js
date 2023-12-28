@@ -3,8 +3,6 @@ import './App.css';
 import RecurringActivityDialog from './components/RecurringActivityDialog';
 import { Button } from '@mui/material';
 
-
-
 const App = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -29,8 +27,8 @@ const App = () => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    // let data = {};
-    console.log(formData)
+    console.log(formData);
+    // here we can get the form data
   };
 
   return (

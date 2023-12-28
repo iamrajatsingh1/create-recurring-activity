@@ -1,33 +1,79 @@
 import { MenuItem, Select } from '@mui/material';
+import { makeStyles } from "@mui/styles"
 import React from 'react';
 import { getTimeOptions } from '../config/options';
 import { ReactComponent as DownIcon } from "../assets/icons/down_arrow.svg";
 
+const useStyles = makeStyles((_theme) => ({
+    selectInputBox: {
+        height: '44px',
+        padding: '10px 14px',
+        fontSize: '14px !important',
+        borderColor: '#c8c8c8',
+        border: "2px",
+        borderRadius: '8px !important',
+        boxSizing: 'border-box',
+        transition: 'border-color 0.3s',
+        '&:active': {
+            borderColor: '#2F991E !important',
+        },
+        '&:focus': {
+            borderColor: '#2F991E !important',
+        },
+        '& .MuiInputBase-root':{
+            display: "flex",
+        },
+        '&:hover': {
+            borderColor: '#2F991E !important',
+        },
+    },
+    select: { 
+        color: "red"
+    }
+}));
+
+let selectMenuStyle = {
+    maxHeight: "320px",
+    padding: "8px, 4px, 8px, 8px",
+    borderRadius: "8px",
+    '& .MuiMenuItem-root': {
+        gap: "4px",
+    },
+    '& .MuiButtonBase-root:hover': {
+        backgroundColor: "#F1F5F2",
+    },
+    '& .MuiMenuItem-root.Mui-selected': {
+        backgroundColor: "#E1E9E1",
+    },
+}
+
+
 export const CustomInput = ({ type, name, label, formData, handleOnChange, placeholder, options = [], width }) => {
+    const classes = useStyles();
+
     switch (type) {
         case "select":
-            return <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
-                <label style={{ fontWeight: 600, fontSize: '14px' }}>{label}</label>
+            return <div className='label-input-row'>
+                <label className='label'>{label}</label>
                 <Select
                     name={name}
+                    classes={{
+                        root: classes.selectInputBox,
+                        select: classes.select,
+                        outlined: classes.select,
+                    }}
                     value={formData && formData[name] ? formData[name] : ''}
                     onChange={(e) => handleOnChange(name, e.target.value)}
                     displayEmpty
-                    inputProps={{ 'aria-label': 'Without label', style: { gap: "10px" } }}
-                    style={{
-                        height: '44px',
-                        padding: '10px 14px',
-                        borderRadius: '8px',
-                    }}
+                    inputProps={{ 'aria-label': 'Without label' }}
                     MenuProps={{
                         PaperProps: {
-                            style: {
-                                maxHeight: 48 * 4.5 + 8,
-                                width: 250,
-                            },
+                            sx: selectMenuStyle
                         },
                     }}
-                    IconComponent={DownIcon}
+                    IconComponent={() => <div>
+                        <DownIcon />
+                    </div>}
                 >
                     {options.map((eachOption, index) => {
                         return <MenuItem key={index} value={eachOption.value}>
@@ -39,21 +85,26 @@ export const CustomInput = ({ type, name, label, formData, handleOnChange, place
             </div>;
         case "time-selector":
             const timeOptions = getTimeOptions();
-            return <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={{ fontWeight: 600, fontSize: '14px' }}>{label}</label>
-                <div style={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+            return <div className='week-selector-container'>
+                <label className='label'>{label}</label>
+                <div className='time-selector-container'>
                     <Select
                         name={'from'}
+                        classes={{
+                            root: classes.selectInputBox
+                        }}
                         value={formData && formData['from'] ? formData['from'] : ''}
                         onChange={(e) => handleOnChange('from', e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
-                        style={{
-                            height: '44px',
-                            padding: '10px 14px',
-                            borderRadius: '8px',
+                        IconComponent={() => <div>
+                            <DownIcon />
+                        </div>}
+                        MenuProps={{
+                            PaperProps: {
+                                sx: selectMenuStyle
+                            },
                         }}
-                        IconComponent={DownIcon}
                     >
                         {timeOptions.map((eachOption, index) => {
                             return <MenuItem key={index} value={eachOption.value}>{eachOption.label}</MenuItem>
@@ -62,63 +113,52 @@ export const CustomInput = ({ type, name, label, formData, handleOnChange, place
                     <span>to</span>
                     <Select
                         name={'to'}
+                        classes={{
+                            root: classes.selectInputBox
+                        }}
                         value={formData && formData['to'] ? formData['to'] : ''}
                         onChange={(e) => handleOnChange('to', e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
-                        style={{
-                            height: '44px',
-                            padding: '10px 14px',
-                            borderRadius: '8px',
+                        IconComponent={() => <div>
+                            <DownIcon />
+                        </div>}
+                        MenuProps={{
+                            PaperProps: {
+                                sx: selectMenuStyle
+                            },
                         }}
-                        IconComponent={DownIcon}
                     >
                         {timeOptions.map((eachOption, index) => {
                             return <MenuItem key={index} value={eachOption.value} selected={formData && formData['to'] && formData['to'] === eachOption.value}>{eachOption.label}</MenuItem>
                         })}
                     </Select>
                 </div>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start'
-                }}>
+                <div className='all-day-checkbox-container'>
                     <input type='checkbox' name='allDay' value={formData["allDay"]} onChange={(e) => handleOnChange("allDay", e.target.value)} />
-                    <span style={{ fontSize: '12px', color: '#777' }}>
+                    <span>
                         All day
                     </span>
                 </div>
             </div>;
         case 'week-selector':
-            return <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <label style={{ fontWeight: 600, fontSize: '14px' }}>{label}</label>
-                <div style={{ display: 'flex', gap: '8px' }}>
+            return <div className='week-selector-container'>
+                <label className='label'>{label}</label>
+                <div className='week-selector-container-btn-grp'>
                     {['M', 'T', 'W', 'T', 'F'].map((eachWeek, index) => {
                         const isSelected = formData["repeatEvery"] && formData["repeatEvery"] === eachWeek;
-
                         return (
                             <div
                                 key={index}
+                                className='week-btn'
                                 style={{
-                                    width: '32px',
-                                    height: '32px',
-                                    borderRadius: '50%',
-                                    backgroundColor: '#E0F9C8',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    fontSize: '16px',
-                                    fontWeight: 'bold',
-                                    cursor: 'pointer',
-                                    border: '2px solid',
-                                    transition: 'border-color 0s',
                                     borderColor: isSelected ? '#2F991E' : 'transparent',
                                 }}
                                 onMouseOver={(e) => (e.target.style.borderColor = '#2F991E')}
                                 onMouseOut={(e) => (e.target.style.borderColor = 'transparent')}
                                 onClick={() => handleOnChange('repeatEvery', eachWeek)}
                             >
-                                <span style={{ fontWeight: '500', color: '#094F0C', fontSize: '16px' }}>
+                                <span className='week-text'>
                                     {eachWeek}
                                 </span>
                             </div>
@@ -127,25 +167,15 @@ export const CustomInput = ({ type, name, label, formData, handleOnChange, place
                 </div>
             </div>;
         default:
-            return <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
-                <label style={{ fontWeight: 600, fontSize: '14px' }}>{label}</label>
+            return <div className='label-input-row'>
+                <label className='label'>{label}</label>
                 <input
                     type="text"
                     placeholder={placeholder}
+                    className='input-box'
                     style={{
-                        width: width ? width : '278px',
-                        height: '44px',
-                        padding: '10px 14px',
-                        borderRadius: '8px',
-                        border: '1px solid #c8c8c8',
-                        boxSizing: 'border-box',
-                        transition: 'border-color 0.3s',
+                        width: width ? width : '278px'
                     }}
-                    onChange={(e) => handleOnChange(name, e.target.value)}
-                    onFocus={(e) => (e.target.style.borderColor = '#2F991E')}
-                    onBlur={(e) => (e.target.style.borderColor = '')}
-                    onMouseOver={(e) => (e.target.style.borderColor = '#2F991E')}
-                    onMouseOut={(e) => (e.target.style.borderColor = '')}
                 />
             </div>;
     }
